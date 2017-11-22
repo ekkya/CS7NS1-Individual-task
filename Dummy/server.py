@@ -7,7 +7,7 @@ import threading
 
 s = socket.socket()         # Create a socket object
 host = socket.gethostname() # Get local machine name
-port = 11116            # Reserve a port for your service.
+port = 11117            # Reserve a port for your service.
 s.bind((host, port))        # Bind to the port
 
 s.listen(5)                 # Now wait for client connection.
@@ -38,6 +38,15 @@ if f1 == "'r'":
               l = f.read(1024)
        f.close()
        print "File was sent"
+elif f1 == "'a'":
+       a1 = c.recv(1024)
+       print a1
+       f = open(h1, 'a')
+       #l1 = f.read(1024)
+       l = f.write(a1)
+       print "File Modified"
+       f.close()
+
 else:
        print "Failed to Read"
 c.close()                # Close the connection

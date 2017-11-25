@@ -7,7 +7,7 @@ import threading
 
 s = socket.socket()         # Create a socket object
 host = socket.gethostname() # Get local machine name
-port = 11117            # Reserve a port for your service.
+port = 5001            # Reserve a port for your service.
 s.bind((host, port))        # Bind to the port
 
 s.listen(5)                 # Now wait for client connection.
@@ -17,7 +17,7 @@ print dir
 #while True:
 c, addr = s.accept()     # Establish connection with client.
 print 'Got connection from', addr
-c.send(str(dir))
+#c.send(str(dir))
 print "Waiting for reply from client"
 a = c.recv(1024)
 print a

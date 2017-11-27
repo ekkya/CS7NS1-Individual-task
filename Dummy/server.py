@@ -7,7 +7,7 @@ import threading
 
 s = socket.socket()         # Create a socket object
 host = socket.gethostname() # Get local machine name
-port = 5001            # Reserve a port for your service.
+port = 5008            # Reserve a port for your service.
 s.bind(('', port))        # Bind to the port
 
 s.listen(5)                 # Now wait for client connection.

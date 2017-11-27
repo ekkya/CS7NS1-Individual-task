@@ -83,16 +83,16 @@ def lock(file_name):
 
 if __name__ == '__main__':
     host = 'localhost'
-    port_dr = 5004
+    port_dr = 5010
     s_dr = socket.socket()
     s_dr.connect((host, port_dr))
 
     s_fs = socket.socket()  # Create a socket object
-    port_fs = 5008  # Reserve a port for your service.
+    port_fs = 5011  # Reserve a port for your service.
     s_fs.connect((host, port_fs))
 
     s_ls = socket.socket()  # Create a socket object
-    port_ls = 5007
+    port_ls = 5012
     s_ls.connect((host, port_ls))
 
     directory()

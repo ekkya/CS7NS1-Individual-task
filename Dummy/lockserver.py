@@ -5,7 +5,7 @@ import os
 
 def lock():
     host = 'localhost'
-    port = 5006
+    port = 5007
     s = socket.socket()
     s.bind(('', port))
     s.listen(5)
@@ -24,6 +24,15 @@ def lock():
         print files
         value = files.get(x)
         c.send(value.encode())
+        v = c.recv(1024)
+        print v
+        if v in files.keys():
+            files[v] = 'Locked'
+            print files
+            w = c.recv(1024)
+            if w == "done":
+                files[v] = 'Unlocked'
+                print files
 
 if __name__ == '__main__':
     lock()

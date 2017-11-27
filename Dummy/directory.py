@@ -15,6 +15,7 @@ def get_list(name, sock):
         if f_name in files:
             i = files.index(f_name)
             print "Exists"
+            #Check with lockserver if file is locked or not
             data = current_working_directory + f_name + ' Size ' + str(
                 os.path.getsize(files[i])) + ' Last modified ' + str(os.path.getctime(files[i]))
             print data
@@ -28,9 +29,9 @@ def get_list(name, sock):
 
 def Main():
     host = 'localhost'
-    port = 5000
+    port = 5004
     s = socket.socket()
-    s.bind((host, port))
+    s.bind(('', port))
     s.listen(5)
     print "Server Started"
     #while True:

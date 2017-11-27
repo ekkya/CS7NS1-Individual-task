@@ -8,7 +8,7 @@ import threading
 s = socket.socket()         # Create a socket object
 host = socket.gethostname() # Get local machine name
 port = 5001            # Reserve a port for your service.
-s.bind((host, port))        # Bind to the port
+s.bind(('', port))        # Bind to the port
 
 s.listen(5)                 # Now wait for client connection.
 path = "/home/ekkya/CS7NS1-Individual-task/Dummy"
@@ -42,7 +42,6 @@ elif f1 == "'a'":
        a1 = c.recv(1024)
        print a1
        f = open(h1, 'a')
-       #l1 = f.read(1024)
        l = f.write(a1)
        print "File Modified"
        f.close()

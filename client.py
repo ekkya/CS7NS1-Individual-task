@@ -17,6 +17,7 @@ def directory():
     elif f_name1 == 'exit':
         f_name1.encode()
         s_dr.send(f_name1.encode())
+        print "Client exit"
     elif f_name1 == 'new':
         f_name = raw_input("Enter File Name, type exit to quit: ")
         f_name.encode()
@@ -66,6 +67,8 @@ def fileserver(f):
             g = [f, mode[1]]
             s_fs.send(str(g))
             s_ls.send((str(g[0]).encode()))
+            #status = s_ls.recv(1024)
+            #print status
             data1 = raw_input("What do you want to write to file?" + str(g[0]))
             print "Modified content: " + str(data1)
             s_fs.send(data1)
@@ -78,20 +81,22 @@ def lock(file_name):
     s_ls.send(file_name.encode())
     status = s_ls.recv(1024)
     print "Status of file: " + str(status)
+    #updated_status = s_ls.recv(1024)
 
     return status
+    #return updated_status
 
 if __name__ == '__main__':
     host = 'localhost'
-    port_dr = 5004
-    s_dr = socket.socket()
+    port_dr = 5011
+    s_dr = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
     s_dr.connect((host, port_dr))
 
-    s_fs = socket.socket()  # Create a socket object
-    port_fs = 5008  # Reserve a port for your service.
+    s_fs = socket.socket(socket.AF_INET,socket.SOCK_STREAM)  # Create a socket object
+    port_fs = 5012  # Reserve a port for your service.
     s_fs.connect((host, port_fs))
 
-    s_ls = socket.socket()  # Create a socket object
+    s_ls = socket.socket(socket.AF_INET,socket.SOCK_STREAM)  # Create a socket object
     port_ls = 5007
     s_ls.connect((host, port_ls))
 

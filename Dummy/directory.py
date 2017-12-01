@@ -1,4 +1,4 @@
-import socket
+import socket, pickle
 from threading import Thread
 import threading
 import os
@@ -16,18 +16,29 @@ class client_thread(Thread):
 
 
 def get_list(name, sock):
+    f_name = (sock.recv(2048)).decode()
+    print f_name
+    f = open(f_name, "w+")
+    info = (sock.recv(2048)).decode()
+    print info
+    f.write(info)
+    print "File creation complete"
+    f.close()
+
+    files = []
     current_working_directory = os.getcwd()
     os.chdir(current_working_directory)
-    files = []
-    d1 = []
     files = os.listdir(current_working_directory)
-    f_name = sock.recv(2048)
-    while f_name != 'exit':
-        if f_name in files:
-            i = files.index(f_name)
+    data = pickle.dumps(files)
+    sock.send(data)
+    file_name = sock.recv(2048)
+    file_name1 = 'none'
+    while file_name1 != 'e':
+        if file_name in files:
+            i = files.index(file_name)
             print "Exists"
             #Check with lockserver if file is locked or not
-            data = current_working_directory + f_name + ' Size ' + str(
+            data = current_working_directory + file_name + ' Size ' + str(
                 os.path.getsize(files[i])) + ' Last modified ' + str(os.path.getctime(files[i]))
             print data
             data2 = data.encode()
@@ -36,7 +47,8 @@ def get_list(name, sock):
             data1 = 'File does not exist, please try again'
             data1.encode()
             sock.send(data1.encode())
-        f_name = sock.recv(2048)
+        file_name1 = sock.recv(2048)
+    sock.close()
 
 def Main():
     host = 'localhost'

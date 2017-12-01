@@ -1,31 +1,35 @@
 import socket               # Import socket module
+import pickle
 
 def directory():
-    print "Connection Established with Directory server"
-    f_name = raw_input("Enter File Name, type exit to quit: ")
-    f_name.encode()
-    s_dr.send(f_name.encode())
-    data = s_dr.recv(2048)
-    data1 = data.decode()
-    print data1
-    #lock(f_name)
-    f_name1 = raw_input("OK. What do you want to do now? Contact fileserver type yes, type new for directory servicer or type exit to quit")
-    if f_name1 == 'yes':
-        data2 = 'exit'
-        s_dr.send(data2.encode())
-        fileserver(f_name)
-    elif f_name1 == 'exit':
-        f_name1.encode()
-        s_dr.send(f_name1.encode())
-        print "Client exit"
-    elif f_name1 == 'new':
+    input = raw_input("Welcome to the Directory. Type n for new file or Type e for existing file")
+    if input == 'n':
+        file_name = raw_input("Enter file name")
+        s_dr.send(file_name.encode())
+        info = raw_input("Write data into file: ")
+        s_dr.send(info.encode())
+
+        data = (s_dr.recv(2048)).decode()
+        files = pickle.loads(data)
+        print files
+
+    if files:
         f_name = raw_input("Enter File Name, type exit to quit: ")
         f_name.encode()
         s_dr.send(f_name.encode())
         data = s_dr.recv(2048)
         data1 = data.decode()
         print data1
-    s_dr.close()
+    f_name1 = raw_input("OK. What do you want to do now? Contact fileserver, type yes")
+    if f_name1 == 'yes':
+        #data2 = 'exit'
+        #s_dr.send(data2.encode())
+        fileserver(f_name)
+    elif f_name1 == 'exit':
+        f_name1.encode()
+        s_dr.send(f_name1.encode())
+        print "Client exit"
+    #s_dr.close()
 
 def fileserver(f):
     mode = ['r', 'a']
@@ -75,7 +79,13 @@ def fileserver(f):
             print "Changes sent!"
             s_ls.send("done".encode())
         #s_fs.close                     # Close the socket when done
-        w = raw_input("OK. Type back to return to directory server.")
+        w = raw_input("OK. Type b to return to directory server. Press e to quit")
+        if w == 'b':
+            directory()
+        elif w == 'e':
+            s_dr.send(w.encode())
+            s_fs.send(w.encode())
+            s_ls.send(w.encode())
 
 def lock(file_name):
     s_ls.send(file_name.encode())

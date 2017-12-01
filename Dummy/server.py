@@ -4,6 +4,7 @@ import select
 import sys
 from thread import *
 from threading import Thread
+import pickle
 
 
 class client_thread(Thread):
@@ -18,19 +19,22 @@ class client_thread(Thread):
             FileServer(self.addr, self.c)
 
 def FileServer(name, c):
+    a1 = 'none'
+    a = c.recv(1024)
+    while a1 != 'e':
        path = "/home/ekkya/CS7NS1-Individual-task/Dummy"
        dir = os.listdir(path)
        print dir
        print "Waiting for reply from client"
-       a = c.recv(1024)
+       #a = c.recv(1024)
        print a
        remove = a[1:-1]
-       print remove
+       #print remove
        h = remove.split(", ")
        h1 = h[0].replace("'", "")
-       print h1
+       #print h1
        f1 = h[1]
-       print f1
+       #print f1
        if f1 == "'r'":
               print "Read"
               f = open(h1)
@@ -51,7 +55,8 @@ def FileServer(name, c):
 
        else:
               print "Failed to Read"
-       c.close()                # Close the connection
+       a1 = c.recv(1024)
+    c.close()                # Close the connection
 
 def Main():
     host = 'localhost'

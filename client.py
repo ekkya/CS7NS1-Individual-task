@@ -1,6 +1,24 @@
 import socket               # Import socket module
 import pickle
 
+def authentication():
+    input = raw_input("Welcome to the Authentication Server. Enter 1 to login or 2 to sign up")
+    socket_auth.send(input.encode())
+    usr = raw_input("Username")
+    socket_auth.send(usr.encode())
+    pwd = raw_input("Password")
+    socket_auth.send(pwd.encode())
+
+    value = (socket_auth.recv(2048)).decode()
+    if value == 'true':
+        directory()
+    elif value == 'false':
+        print "Incorrect Password"
+        authentication()
+    else:
+        print "Username Already exists"
+        authentication()
+
 def directory():
     input = raw_input("Welcome to the Directory. Type n for new file or Type e for existing file")
     if input == 'n':
@@ -110,5 +128,8 @@ if __name__ == '__main__':
     port_ls = 5007
     s_ls.connect((host, port_ls))
 
-    directory()
-    #fileserver()
+    port_ath = 5013
+    socket_auth = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+    socket_auth.connect((host, port_ath))
+
+    authentication()

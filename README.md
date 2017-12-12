@@ -21,3 +21,8 @@ Multiple clients cannot change access the file for writing at the same time.
 Authentication Server
 Basic Server that checks a database to see if a correct Username and Password were provided.
 
+Caching
+When the client calls on the Directory Server, the cache is checked to see if:
+1) The file exists in the cache.
+2) Whether the file is the most up-to-date version.
+

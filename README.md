@@ -1,5 +1,7 @@
 # CS7NS1-Individual-task
 
+Alaa Ekky                      MAI Computer and Electronic Engineering          13317728
+
 Distributed File System implemented using Python and Sockets. Servers are divided as follows:
 
 File Server

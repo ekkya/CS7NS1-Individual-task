@@ -1,5 +1,6 @@
 import socket               # Import socket module
 import pickle
+import os.path
 
 def authentication():
     input = raw_input("Welcome to the Authentication Server. Enter 1 to login or 2 to sign up")
@@ -19,6 +20,17 @@ def authentication():
         print "Username Already exists"
         authentication()
 
+def cache(filename):
+    t = os.path.getctime(filename)
+    socket_cache.send(filename.encode(), t.encode())
+    c = (socket_cache.recv(2048)).decode()
+    print c
+    if filename in c:
+        print "File present in cache"
+
+
+
+
 def directory():
     input = raw_input("Welcome to the Directory. Type n for new file or Type e for existing file")
     if input == 'n':
@@ -33,6 +45,7 @@ def directory():
 
     if files:
         f_name = raw_input("Enter File Name, type exit to quit: ")
+        cache(f_name)
         f_name.encode()
         s_dr.send(f_name.encode())
         data = s_dr.recv(2048)
@@ -131,5 +144,9 @@ if __name__ == '__main__':
     port_ath = 5013
     socket_auth = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
     socket_auth.connect((host, port_ath))
+
+    port_cs = 5014
+    socket_cache = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    socket_cache.connect((host, port_cs))
 
     authentication()
